@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>A/B Test Page</title>
+		<link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8">
+		<script type="text/javascript" src="../ab.js"></script>
+		
+		<script type="text/javascript">
+		
+			var myAbTest = new ABTest("example test", 1, 
+			{
+				variation : function() {
+					document.getElementById("panda").src = "images/panda2.jpg";
+					document.getElementById("footer-text").innerHTML = "This is the variation";
+				},
+				control: function() {
+					document.getElementById("panda").src = "images/panda1.jpg";
+					document.getElementById("footer-text").innerHtml = "This is the control test";
+				}
+			});
+			
+		</script>
+	</head>
+	<body>
+		<div class="content">
+			<h1>A/B Test Example</h1>
+			<img id="panda" src="images/panda1.jpg">
+			<p id="footer-text">This is the control test</p>
+			<input type="button" name="clear" value="Clear Cookie" onclick="setCookie('abjs_variation', '', 365);">
+		</div>
+		
+		
+	</body>
+</html>

@@ -1,0 +1,16 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+div.content {
+   margin: auto;
+   width: 490px;
+   border: 1px solid #000; 
+   text-align: center;
+   padding-bottom: 20px;
+}
+
+p {
+    font-size: 32px;
+    text-align: center;
+}
