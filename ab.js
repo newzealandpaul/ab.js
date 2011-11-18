@@ -73,5 +73,6 @@ ABTestUtils.keys = function(o) {
 }
 
 window.ABTest = ABTest;
+window.ABTestUtils = ABTestUtils;
 
 })();
