@@ -1,4 +1,6 @@
-function ABTest(name, customVarSlot, variationFunctions) {
+(function(){
+
+var ABTest = function(name, customVarSlot, variationFunctions) {
     this.name = name;
     this.customVarSlot = customVarSlot;
     this.variationFunctions = variationFunctions;
@@ -70,3 +72,7 @@ var ABTestUtils = {
     return ret;
   }
 }
+
+window.ABTest = ABTest;
+
+})();
