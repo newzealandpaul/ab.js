@@ -35,6 +35,7 @@ ABTest.prototype.getCookie = function(c_name) {
             return unescape(y);
         }
     }
+    return "";
 }
 
 // Add onload event with clobbering anything else
