@@ -25,8 +25,7 @@ ABTest.prototype.setCookie = function(c_name, value, exdays) {
     document.cookie = c_name + "=" + c_value;
 }
 
-ABTest.prototype.getCookie = function (c_name)
- {
+ABTest.prototype.getCookie = function(c_name) {
     var i, x, y, ARRcookies = document.cookie.split(";");
     for (i = 0; i < ARRcookies.length; i++) {
         x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
