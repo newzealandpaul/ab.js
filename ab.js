@@ -6,10 +6,10 @@ function ABTest(name, customVarSlot, variationFunctions) {
     var cookieName = "abjs_variation";
     var assignedVariation = this.getCookie(cookieName);
     
-    if (assignedVariation == null || assignedVariation == "") {
+    if (assignedVariation === "") {
        // Assign a variation and set cookie
-       variationNumber = Math.floor(Math.random() * Object.keys(variationFunctions).length);
-       assignedVariation = Object.keys(variationFunctions)[variationNumber];
+       variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
+       assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
        this.setCookie(cookieName, assignedVariation, 365);
     }
 
@@ -21,7 +21,7 @@ function ABTest(name, customVarSlot, variationFunctions) {
 ABTest.prototype.setCookie = function(c_name, value, exdays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + exdays);
-    var c_value = escape(value) + ((exdays == null) ? "": "; expires=" + exdate.toUTCString());
+    var c_value = escape(value) + ((exdays === null) ? "": "; expires=" + exdate.toUTCString());
     document.cookie = c_name + "=" + c_value;
 }
 
@@ -51,4 +51,22 @@ ABTest.prototype.addLoadEvent = function(func) {
             func();
         }
     }
+}
+
+var ABTestUtils = {
+  // Object.keys clone for older browsers. From http://mzl.la/hRlUXm
+  keys : function(o) {
+    if (o !== Object(o)) {
+      throw new TypeError('ABTestUtils.keys called on non-object');
+    }
+
+    var ret=[];
+    var p = null;
+    for(p in o) {
+        if(Object.prototype.hasOwnProperty.call(o,p)) {
+          ret.push(p);
+        }
+    }
+    return ret;
+  }
 }
