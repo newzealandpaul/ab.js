@@ -4,28 +4,28 @@ function ABTest(name, customVarSlot, variationFunctions) {
     this.variationFunctions = variationFunctions;
     
     var cookieName = "abjs_variation";
-    var assignedVariation = getCookie(cookieName);
+    var assignedVariation = this.getCookie(cookieName);
     
     if (assignedVariation == null || assignedVariation == "") {
        // Assign a variation and set cookie
        variationNumber = Math.floor(Math.random() * Object.keys(variationFunctions).length);
        assignedVariation = Object.keys(variationFunctions)[variationNumber];
-       setCookie(cookieName, assignedVariation, 365);
+       this.setCookie(cookieName, assignedVariation, 365);
     }
 
-    addLoadEvent(function() {
+    this.addLoadEvent(function() {
         variationFunctions[assignedVariation]();
     });
 }
 
-function setCookie(c_name, value, exdays) {
+ABTest.prototype.setCookie = function(c_name, value, exdays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + exdays);
     var c_value = escape(value) + ((exdays == null) ? "": "; expires=" + exdate.toUTCString());
     document.cookie = c_name + "=" + c_value;
 }
 
-function getCookie(c_name)
+ABTest.prototype.getCookie = function (c_name)
  {
     var i, x, y, ARRcookies = document.cookie.split(";");
     for (i = 0; i < ARRcookies.length; i++) {
@@ -39,7 +39,7 @@ function getCookie(c_name)
 }
 
 // Add onload event with clobbering anything else
-function addLoadEvent(func) {
+ABTest.prototype.addLoadEvent = function(func) {
     var oldonload = window.onload;
     if (typeof window.onload != 'function') {
         window.onload = func;
