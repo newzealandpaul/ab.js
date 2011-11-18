@@ -6,28 +6,30 @@ var ABTest = function(name, customVarSlot, variationFunctions) {
     this.variationFunctions = variationFunctions;
     
     var cookieName = "abjs_variation";
-    var assignedVariation = this.getCookie(cookieName);
+    var assignedVariation = ABTestUtils.getCookie(cookieName);
     
     if (assignedVariation === "") {
        // Assign a variation and set cookie
        variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
        assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
-       this.setCookie(cookieName, assignedVariation, 365);
+       ABTestUtils.setCookie(cookieName, assignedVariation, 365);
     }
 
-    this.addLoadEvent(function() {
+    ABTestUtils.addLoadEvent(function() {
         variationFunctions[assignedVariation]();
     });
 }
 
-ABTest.prototype.setCookie = function(c_name, value, exdays) {
+var ABTestUtils = {};
+
+ABTestUtils.setCookie = function(c_name, value, exdays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + exdays);
     var c_value = escape(value) + ((exdays === null) ? "": "; expires=" + exdate.toUTCString());
     document.cookie = c_name + "=" + c_value;
 }
 
-ABTest.prototype.getCookie = function(c_name) {
+ABTestUtils.getCookie = function(c_name) {
     var i, x, y, ARRcookies = document.cookie.split(";");
     for (i = 0; i < ARRcookies.length; i++) {
         x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
@@ -41,7 +43,7 @@ ABTest.prototype.getCookie = function(c_name) {
 }
 
 // Add onload event with clobbering anything else
-ABTest.prototype.addLoadEvent = function(func) {
+ABTestUtils.addLoadEvent = function(func) {
     var oldonload = window.onload;
     if (typeof window.onload != 'function') {
         window.onload = func;
@@ -55,22 +57,19 @@ ABTest.prototype.addLoadEvent = function(func) {
     }
 }
 
-var ABTestUtils = {
-  // Object.keys clone for older browsers. From http://mzl.la/hRlUXm
-  keys : function(o) {
-    if (o !== Object(o)) {
-      throw new TypeError('ABTestUtils.keys called on non-object');
-    }
+ABTestUtils.keys = function(o) {
+   if (o !== Object(o)) {
+     throw new TypeError('ABTestUtils.keys called on non-object');
+   }
 
-    var ret=[];
-    var p = null;
-    for(p in o) {
-        if(Object.prototype.hasOwnProperty.call(o,p)) {
-          ret.push(p);
-        }
-    }
-    return ret;
-  }
+   var ret = [];
+   var p = null;
+   for(p in o) {
+       if(Object.prototype.hasOwnProperty.call(o,p)) {
+         ret.push(p);
+       }
+   }
+   return ret;
 }
 
 window.ABTest = ABTest;
