@@ -3,21 +3,19 @@
 var ABTest = function(name, customVarSlot, variationFunctions) {
     this.name = name;
     this.customVarSlot = customVarSlot;
-    this.variationFunctions = variationFunctions;
-    
+
     var cookieName = "abjs_variation";
-    var assignedVariation = ABTestUtils.getCookie(cookieName);
-    
-    if (assignedVariation === "") {
+    this.assignedVariation = ABTestUtils.getCookie(cookieName);
+
+    if (this.assignedVariation === "") {
        // Assign a variation and set cookie
-       variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
-       assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
-       ABTestUtils.setCookie(cookieName, assignedVariation, 365);
+       this.variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
+       this.assignedVariation = ABTestUtils.keys(variationFunctions)[this.variationNumber];
+       ABTestUtils.setCookie(cookieName, this.assignedVariation, 365);
     }
 
-    ABTestUtils.addLoadEvent(function() {
-        variationFunctions[assignedVariation]();
-    });
+    var functionToExecute = variationFunctions[this.assignedVariation];
+    ABTestUtils.addLoadEvent(function() { functionToExecute(); });
 }
 
 var ABTestUtils = {};
