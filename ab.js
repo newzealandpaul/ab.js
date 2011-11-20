@@ -1,3 +1,10 @@
+/*!
+* AB.js - A/B Testing JavaScript Framework
+* Copyright 2011
+* Released under the New BSD License.
+* More information: https://github.com/aptonic/ab.js
+*/
+
 (function(){
 
 var ABTest = function(name, customVarSlot, variationFunctions) {
