@@ -45,7 +45,7 @@ There is an example A/B test setup in example/test.html
 
 ## License
 
-This code is released under the New BSD License.
+This code is released under the MIT License.
 
 ## Many Thanks 
 
