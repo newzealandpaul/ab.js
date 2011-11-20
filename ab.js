@@ -16,9 +16,12 @@ var ABTest = function(name, customVarSlot, variationFunctions) {
 
     if (this.assignedVariation === "") {
        // Assign a variation and set cookie
-       this.variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
-       this.assignedVariation = ABTestUtils.keys(variationFunctions)[this.variationNumber];
+       variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
+       this.assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
        ABTestUtils.setCookie(cookieName, this.assignedVariation, 365);
+       this.newCookieSet = true;
+    }else{
+       this.newCookieSet = false;
     }
 
     var functionToExecute = variationFunctions[this.assignedVariation];

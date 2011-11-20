@@ -14,3 +14,7 @@ p {
     font-size: 32px;
     text-align: center;
 }
+
+p.debug {
+  font-size: 14px;
+}
