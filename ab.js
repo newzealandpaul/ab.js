@@ -25,7 +25,7 @@ var ABTest = function(name, customVarSlot, variationFunctions) {
     }
 
     var functionToExecute = variationFunctions[this.assignedVariation];
-    ABTestUtils.addLoadEvent(function() { functionToExecute(); });
+    ABTestUtils.contentLoaded(window, function() { functionToExecute(); });
 
     window._gaq = window._gaq || [];
     window._gaq.push(["_setCustomVar", this.customVarSlot, "abjs_" + this.name, "abjs_" + this.assignedVariation, 1]);
@@ -53,20 +53,6 @@ ABTestUtils.getCookie = function(c_name) {
     return "";
 }
 
-ABTestUtils.addLoadEvent = function(func) {
-    var oldonload = window.onload;
-    if (typeof window.onload != 'function') {
-        window.onload = func;
-    } else {
-        window.onload = function() {
-            if (oldonload) {
-                oldonload();
-            }
-            func();
-        }
-    }
-}
-
 ABTestUtils.keys = function(o) {
    if (o !== Object(o)) {
      throw new TypeError('ABTestUtils.keys called on non-object');
@@ -84,6 +70,39 @@ ABTestUtils.keys = function(o) {
 
 ABTestUtils.isFunction = function(object) {
   return !!(object && object.constructor && object.call && object.apply);
+}
+
+ABTestUtils.contentLoaded = function(win, fn) {
+
+  var done = false, top = true,
+
+  doc = win.document, root = doc.documentElement,
+
+  add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
+  rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
+  pre = doc.addEventListener ? '' : 'on',
+
+  init = function(e) {
+  if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
+    (e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
+    if (!done && (done = true)) fn.call(win, e.type || e);
+  },
+
+  poll = function() {
+    try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+    init('poll');
+  };
+
+  if (doc.readyState == 'complete') fn.call(win, 'lazy');
+  else {
+    if (doc.createEventObject && root.doScroll) {
+    try { top = !win.frameElement; } catch(e) { }
+      if (top) poll();
+    }
+    doc[add](pre + 'DOMContentLoaded', init, false);
+    doc[add](pre + 'readystatechange', init, false);
+    win[add](pre + 'load', init, false);
+  }
 }
 
 window.ABTest = ABTest;

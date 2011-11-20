@@ -49,5 +49,5 @@ This code is released under the New BSD License.
 
 ## Many Thanks 
 
-* addLoadEvent() by [Simon Willison](http://simonwillison.net/2004/may/26/addloadevent/)
+* contentloaded() by [Diego Perini](https://github.com/dperini) (diego.perini at gmail.com) 
 * isFunction() from [Underscore.js](http://documentcloud.github.com/underscore/)
