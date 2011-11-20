@@ -14,7 +14,7 @@ var ABTest = function(name, customVarSlot, variationFunctions) {
     var cookieName = "abjs_variation";
     this.assignedVariation = ABTestUtils.getCookie(cookieName);
 
-    if (this.assignedVariation === "") {
+    if (this.assignedVariation === "" || !(ABTestUtils.isFunction(variationFunctions[this.assignedVariation]))) {
        // Assign a variation and set cookie
        variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
        this.assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
@@ -80,6 +80,10 @@ ABTestUtils.keys = function(o) {
        }
    }
    return ret;
+}
+
+ABTestUtils.isFunction = function(object) {
+  return !!(object && object.constructor && object.call && object.apply);
 }
 
 window.ABTest = ABTest;
