@@ -1,4 +1,4 @@
-![Logo](https://github.com/newzealandpaul/ab.js/raw/markdown-test/web/1.png)
+![Logo](https://github.com/newzealandpaul/ab.js/raw/markdown-test/web/2.png)
 
 # ab.js - A/B Testing JavaScript Framework
 
