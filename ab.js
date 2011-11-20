@@ -16,6 +16,9 @@ var ABTest = function(name, customVarSlot, variationFunctions) {
 
     var functionToExecute = variationFunctions[this.assignedVariation];
     ABTestUtils.addLoadEvent(function() { functionToExecute(); });
+
+    window._gaq = window._gaq || [];
+    window._gaq.push(["_setCustomVar", this.customVarSlot, "abjs_" + this.name, "abjs_" + this.assignedVariation, 1]);
 }
 
 var ABTestUtils = {};
