@@ -1,5 +1,7 @@
 # ab.js - A/B Testing JavaScript Framework
 
+![Logo](https://github.com/newzealandpaul/ab.js/raw/markdown-test/web/2.png)
+
 Concept and Design by [Paul William](https://github.com/newzealandpaul)
 
 Developed by [John Winter](http://www.aptonic.com) (john@aptonic.com)
