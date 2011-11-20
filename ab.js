@@ -43,7 +43,6 @@ ABTestUtils.getCookie = function(c_name) {
     return "";
 }
 
-// Add onload event with clobbering anything else
 ABTestUtils.addLoadEvent = function(func) {
     var oldonload = window.onload;
     if (typeof window.onload != 'function') {
