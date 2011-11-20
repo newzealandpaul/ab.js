@@ -6,11 +6,11 @@ Developed by [John Winter](http://www.aptonic.com) (john@aptonic.com)
 
 ## Usage
 
-1. Copy ab.js into the js directory inside your web site root. Include in the pages head section with:
+Copy ab.js into the js directory inside your web site root. Include in the pages head section with:
 
 	<script type="text/javascript" src="js/ab.js"></script>
 
-2. Directly after this include you can setup your A/B tests as follows:
+Directly after this include you can setup your A/B tests as follows:
 
 	<script type="text/javascript">
 
