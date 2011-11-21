@@ -10,18 +10,30 @@
 var ABTest = function(name, customVarSlot, variationFunctions) {
    this.name = name;
    this.customVarSlot = customVarSlot;
-
+   this.newCookieSet = null;
    var cookieName = "abjs_variation";
-   this.assignedVariation = ABTestUtils.getCookie(cookieName);
+   var queryString = ABTestUtils.queryString();
+   this.cookieVariation = ABTestUtils.getCookie(cookieName);
+   this.queryVariation = queryString["abjs-setvar-" + this.name];
+
+   if(ABTestUtils.isFunction(variationFunctions[this.queryVariation])){
+      this.assignedVariation = this.queryVariation;
+   }else{
+      this.assignedVariation = this.cookieVariation;
+   }
+   if(queryString["abjs-setcookie"] === "yes"){
+      this.newCookieSet = true;
+   }
 
    if (this.assignedVariation === "" || !(ABTestUtils.isFunction(variationFunctions[this.assignedVariation]))) {
       // Assign a variation and set cookie
       variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
       this.assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
-      ABTestUtils.setCookie(cookieName, this.assignedVariation, 365);
       this.newCookieSet = true;
-   }else{
-      this.newCookieSet = false;
+   }
+
+   if(this.newCookieSet === true){
+      ABTestUtils.setCookie(cookieName, this.assignedVariation, 365);
    }
 
    var functionToExecute = variationFunctions[this.assignedVariation];
@@ -103,6 +115,16 @@ ABTestUtils.contentLoaded = function(win, fn) {
       doc[add](pre + 'readystatechange', init, false);
       win[add](pre + 'load', init, false);
    }
+}
+
+ABTestUtils.queryString = function() {
+   var qsMap = {};
+   var vars = window.location.search.substring(1).split("&");
+   for (var i = 0; i < vars.length; i++) {
+      var kvp = vars[i].split("=");
+      qsMap[unescape(kvp[0])] = unescape(kvp[1]);
+   }
+   return qsMap;
 }
 
 window.ABTest = ABTest;

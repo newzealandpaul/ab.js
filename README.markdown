@@ -49,5 +49,6 @@ This code is released under the MIT License.
 
 ## Many Thanks 
 
-* contentloaded() by [Diego Perini](https://github.com/dperini) (diego.perini at gmail.com) 
+* contentloaded() by [Diego Perini](https://github.com/dperini)
 * isFunction() from [Underscore.js](http://documentcloud.github.com/underscore/)
+* queryString() from [jquip](https://github.com/mythz/jquip)
