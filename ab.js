@@ -41,6 +41,9 @@ var ABTest = function(name, customVarSlot, variationFunctions) {
 
    window._gaq = window._gaq || [];
    window._gaq.push(["_setCustomVar", this.customVarSlot, "abjs_" + this.name, "abjs_" + this.assignedVariation, 1]);
+   
+   // Expose the variation functions for unit tests
+   window.ABTestVariationFunctions = variationFunctions;
 }
 
 var ABTestUtils = {};
