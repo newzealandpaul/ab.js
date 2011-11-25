@@ -41,7 +41,7 @@ A Google Analytics custom variable will be set called "abjs_{test name}"
 You can compare the performance of each variation in the Demographics -> Custom Variables section of
 Google Analytics.
 
-There is an example A/B test setup in example/test.html
+There is an example A/B test setup in examples/example.html
 
 ## License
 
