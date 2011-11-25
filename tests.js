@@ -18,7 +18,7 @@ $(document).ready(function() {
       }
    };
 
-	var cookieName = "abjs_variation";
+   var cookieName = "abjs_variation";
    var queryString = ABTestUtils.queryString();
 
    // Run module A by default
