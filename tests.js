@@ -1,41 +1,72 @@
-// You should change this to the URL where you are hosting the test page
-var webURL = "http://aptonic.com/ab.js/example/test.html"
-var cookieName = "abjs_variation";
+$(document).ready(function() {
 
-var test = require('testling');
-
-
-var ABUnitTestUtils = {};
-
-ABUnitTestUtils.getCookie = function(c_name, win) {
-   var theDocument = win.document;
-   
-   var i, x, y, ARRcookies = theDocument.cookie.split(";");
-   for (i = 0; i < ARRcookies.length; i++) {
-      x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
-      y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
-      x = x.replace(/^\s+|\s+$/g, "");
-      if (x == c_name) {
-         return unescape(y);
-      }
+   function createABTest() {
+		var myAbTest = new ABTest("example test", 1, 
+		{
+			other : function() { },
+			control: function() { }
+		});
    }
-   return "";
-}
 
-test('A/B unit tests', function(t) {
-   t.log(window.navigator.appName);
-   t.createWindow(webURL, function(win, $) {
-      // Check we are actually on the A/B test page
-      //t.equal(win.document.title, 'A/B Test Page', 'Test page <title> incorrect');
+   // Clear all cookies before running each test
+   var before = {
+      setup: function () {
+         cookies = document.cookie.split('; ')
+         for (var i = 0, c; (c = (cookies)[i]) && (c = c.split('=')[0]); i++) {
+            document.cookie = c + '=; expires=' + new Date(0).toUTCString();
+         }
+      }
+   };
 
-      // Check variation cookie not empty
-      var cookieVariation = ABUnitTestUtils.getCookie("abjs_variation", win);
-      //t.notEqual(cookieVariation, "", "abjs_variation cookie may not be empty")
+	var cookieName = "abjs_variation";
+   var queryString = ABTestUtils.queryString();
+
+   // Run module A by default
+   if (!queryString["module"] || queryString["module"] == "A") {
+
+      module("Module A", before);
+
+      test("Check cookie is set and matches a variation function", function() {
+      	expect(2);
+         createABTest();
+         
+      	var cookieVariation = ABTestUtils.getCookie(cookieName);
+      	notEqual(cookieVariation, '', cookieName + " cookie may not be empty");
+      	equal(ABTestUtils.isFunction(ABTestVariationFunctions[cookieVariation]), true, cookieName + " cookie does not match a variation function");
+      });
+
+   // Force control variation for next test
+   document.getElementById("continue-link").href = "tests.html?module=B&abjs-setvar-example%20test=control&abjs-setcookie=yes";
+
+   } else if (queryString["module"] == "B") {
       
-      // Check variation cookie matches a variation function
-      //t.ok(win.ABTestUtils.isFunction(win.ABTestVariationFunctions[this.assignedVariation]), "abjs_variation cookie does not match a variation function")
-      t.end();
-   });
-});
+      module("Module B", before);
 
-EOF
+      test("Try forcing the control variation", function() {
+      	expect(1);
+         createABTest();
+	
+      	var cookieVariation = ABTestUtils.getCookie(cookieName);
+      	equal(cookieVariation, 'control', 'Cooke should have been set to control');
+      });
+   
+      // Force other variation for next test
+      document.getElementById("continue-link").href = "tests.html?module=C&abjs-setvar-example%20test=other&abjs-setcookie=yes";
+      
+   } else if (queryString["module"] == "C") {
+      
+      module("Module C", before);
+
+      test("Try forcing the other variation", function() {
+      	expect(1);
+         createABTest();
+	
+      	var cookieVariation = ABTestUtils.getCookie(cookieName);
+      	equal(cookieVariation, 'other', 'Cooke should have been set to other');
+      });
+   
+   document.getElementById("continue-link").href = "tests.html";
+   document.getElementById("continue-link").innerHTML = "";
+   }
+
+});

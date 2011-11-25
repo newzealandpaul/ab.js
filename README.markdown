@@ -52,3 +52,4 @@ This code is released under the MIT License.
 * contentloaded() by [Diego Perini](https://github.com/dperini)
 * isFunction() from [Underscore.js](http://documentcloud.github.com/underscore/)
 * queryString() from [jquip](https://github.com/mythz/jquip)
+* QUnit() from [jQuery](http://docs.jquery.com/QUnit)
