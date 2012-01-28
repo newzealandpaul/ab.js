@@ -7,43 +7,71 @@
 
 (function(){
 
-var ABTest = function(name, customVarSlot, variationFunctions) {
-   this.name = name;
-   this.customVarSlot = customVarSlot;
-   this.newCookieSet = null;
+var ABTest = function(config) {
+   var ab = {};
+
+   if(!config.name){
+      return false;
+   }else{
+      ab.name = name;
+   }
+
+   if(!config.customVarSlot){
+      return false;
+   }else{
+      ab.customVarSlot = config.customVarSlot;
+   }
+
+   if(!config.variations){
+      return false;
+   }else{
+      ab.variations = config.variations;
+   }
+
+   if(!config.multivariate){
+      ab.multivariate = false;
+   }else{
+      ab.multivariate = true;
+   }
+
+   ab.newCookieSet = null;
    var cookieName = "abjs_variation";
    var queryString = ABTestUtils.queryString();
-   this.cookieVariation = ABTestUtils.getCookie(cookieName);
-   this.queryVariation = queryString["abjs-setvar-" + this.name];
+   ab.cookieVariation = ABTestUtils.getCookie(cookieName);
+   ab.queryVariation = queryString["abjs-setvar-" + ab.name];
 
-   if(ABTestUtils.isFunction(variationFunctions[this.queryVariation])){
-      this.assignedVariation = this.queryVariation;
+   if(ABTestUtils.isFunction(ab.variations[ab.queryVariation])){
+      ab.assignedVariation = ab.queryVariation;
    }else{
-      this.assignedVariation = this.cookieVariation;
+      ab.assignedVariation = ab.cookieVariation;
    }
    if(queryString["abjs-setcookie"] === "yes"){
-      this.newCookieSet = true;
+      ab.newCookieSet = true;
    }
 
-   if (this.assignedVariation === "" || !(ABTestUtils.isFunction(variationFunctions[this.assignedVariation]))) {
+   if (ab.assignedVariation === "" || !(ABTestUtils.isFunction(ab.variations[ab.assignedVariation]))) {
       // Assign a variation and set cookie
-      variationNumber = Math.floor(Math.random() * ABTestUtils.keys(variationFunctions).length);
-      this.assignedVariation = ABTestUtils.keys(variationFunctions)[variationNumber];
-      this.newCookieSet = true;
+      variationNumber = Math.floor(Math.random() * ABTestUtils.keys(ab.variations).length);
+      ab.assignedVariation = ABTestUtils.keys(ab.variations)[variationNumber];
+      ab.newCookieSet = true;
    }
 
-   if(this.newCookieSet === true){
-      ABTestUtils.setCookie(cookieName, this.assignedVariation, 365);
+   if(ab.newCookieSet === true){
+      ABTestUtils.setCookie(cookieName, ab.assignedVariation, 365);
    }
 
-   var functionToExecute = variationFunctions[this.assignedVariation];
-   ABTestUtils.contentLoaded(window, function() { functionToExecute(); });
+   ab.execute = function() {
+      ABTestUtils.contentLoaded(window, function() { ab.variations[ab.assignedVariation]() });
+   }
+
+   if(ab.multivariate == false){
+     ab.execute();
+   }
 
    window._gaq = window._gaq || [];
-   window._gaq.push(["_setCustomVar", this.customVarSlot, "abjs_" + this.name, "abjs_" + this.assignedVariation, 1]);
-   
-   // Expose the variation functions for unit tests
-   window.ABTestVariationFunctions = variationFunctions;
+   window._gaq.push(["_setCustomVar", ab.customVarSlot, "abjs_" + ab.name, "abjs_" + ab.assignedVariation, 1]);
+
+   return ab;
 }
 
 var ABTestUtils = {};
