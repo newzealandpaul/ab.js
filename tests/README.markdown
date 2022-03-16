@@ -4,7 +4,9 @@
 
 See the [project website](http://aptonic.github.com/ab.js) for a demo and more info.
 
-Developed by by [Paul William](https://github.com/newzealandpaul) and [John Winter](http://www.aptonic.com)
+Concept and Design by [Paul William](https://github.com/newzealandpaul)
+
+Developed by [John Winter](http://www.aptonic.com) (john@aptonic.com)
 
 ## Usage
 
