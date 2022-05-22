@@ -1,8 +1,12 @@
-# AB.js - A/B Testing JavaScript Framework
+# AB.js - Simple A/B Testing JavaScript Framework
 
 ![Logo](https://github.com/newzealandpaul/ab.js/raw/markdown-test/web/2.png)
 
-Developed by [Paul](https://github.com/newzealandpaul) and [John](http://www.aptonic.com)
+Basic client-side no-dependency testing framework, logging and [hypothesis testing](https://en.wikipedia.org/wiki/A/B_testing#Common_test_statistics) is not included. 
+
+Demo [here](https://exquisite-kelpie-210657.netlify.app/example.html).
+
+Developed by [Paul](https://github.com/newzealandpaul) and [John](http://www.aptonic.com).
 
 ## Usage
 
