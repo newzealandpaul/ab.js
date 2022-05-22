@@ -4,7 +4,7 @@
 
 Basic no-dependency client-side A/B testing framework. Designed to interface with analytics packages such as Google Analytics. [Hypothesis testing](https://en.wikipedia.org/wiki/A/B_testing#Common_test_statistics) and analytics are not included. 
 
-Demo [here](https://exquisite-kelpie-210657.netlify.app/example.html).
+Demo [here](https://abjs.netlify.app/example.html).
 
 Developed by [Paul](https://github.com/newzealandpaul) and [John](http://www.aptonic.com).
 
