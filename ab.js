@@ -1,8 +1,8 @@
 /*!
  * AB.js - A/B Testing JavaScript Framework
- * Copyright 2011
+ * Copyright 2011 - 2022
  * Released under the MIT License.
- * More information: https://github.com/aptonic/ab.js
+ * More information: https://github.com/newzealandpaul/ab.js
  */
 
 (function(){
