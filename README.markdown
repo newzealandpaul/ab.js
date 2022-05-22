@@ -2,7 +2,7 @@
 
 ![Logo](https://github.com/newzealandpaul/ab.js/raw/markdown-test/web/2.png)
 
-Basic no-dependency client-side A/B testing framework. Logging and [hypothesis testing](https://en.wikipedia.org/wiki/A/B_testing#Common_test_statistics) is not included. 
+Basic no-dependency client-side A/B testing framework. Designed to interface with analytics packages such as Google Analytics. [Hypothesis testing](https://en.wikipedia.org/wiki/A/B_testing#Common_test_statistics) and analytics are not included. 
 
 Demo [here](https://exquisite-kelpie-210657.netlify.app/example.html).
 
